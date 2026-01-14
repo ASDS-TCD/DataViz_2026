@@ -1,5 +1,8 @@
+######################
 # Data Viz  
-# Tutorial 1: Tidyverse and ggplot        
+# Tutorial 1:  
+# Tidyverse and ggplot        
+######################
 
 # Remove objects
 rm(list=ls())
@@ -28,7 +31,74 @@ lapply(c("tidyverse", "ggplot2"),  pkgTest)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 getwd()
 
-# Agenda
+#################
+### In class demo
+#################
+
+# load data
+AB_ZIM <- read.csv("https://raw.githubusercontent.com/ASDS-TCD/DataViz_2026/refs/heads/main/datasets/AB_ZIM.csv")
+# reduce data
+AB_ZIM <- AB_ZIM |> select(Q1, Q101, Q102, Q94A, Q97, Q98)
+# organize data
+AB_ZIM <- AB_ZIM |> 
+  # rename some columns
+  rename(age = `Q1`, 
+         gender = `Q101`,
+         interview_lang = `Q102`,
+         employed = `Q94A`,
+         religion = `Q97`,
+         party_vote = `Q98`) 
+
+# histogram example
+pdf("AB_ZIM_hist1.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age)) +
+  geom_histogram() 
+dev.off()
+
+pdf("AB_ZIM_hist2.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age)) +
+  geom_histogram() + 
+  scale_y_continuous(breaks = c(20, 40, 60, 80, 100))
+dev.off()
+
+pdf("AB_ZIM_hist3.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age)) +
+  geom_histogram() + 
+  scale_y_continuous(breaks = c(20, 40, 60, 80, 100)) +
+  facet_wrap(vars(gender))
+dev.off()
+
+pdf("AB_ZIM_hist4.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age, fill=gender)) +
+  geom_histogram() + 
+  scale_y_continuous(breaks = c(20, 40, 60, 80, 100)) +
+  facet_wrap(vars(gender)) +
+  coord_flip()
+dev.off()
+
+pdf("AB_ZIM_hist5.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age, fill=gender)) +
+  geom_histogram() + 
+  scale_y_continuous(breaks = c(20, 40, 60, 80, 100)) +
+  facet_wrap(vars(gender)) +
+  coord_flip() +
+  labs(x="\nAge", y="\nCount", fill="Gender")
+dev.off()
+
+pdf("AB_ZIM_hist6.pdf")
+ggplot(data = AB_ZIM, mapping = aes(x=age, fill=gender)) +
+  geom_histogram() + 
+  scale_y_continuous(breaks = c(20, 40, 60, 80, 100)) +
+  facet_wrap(vars(gender)) +
+  coord_flip() +
+  labs(x="\nAge", y="\nCount", fill="Gender") +
+  theme_bw()
+dev.off()
+
+##############
+### Group work
+##############
+
 # (1) Organize data yourself in groups using tidy
 # (2) Create informative plots of example RQs
 # (3) Start to add basic elements using ggplot
